@@ -52,7 +52,7 @@ function PixelUI.new()
 	self.ScreenGui.Parent = Player:WaitForChild("PlayerGui")
 	
 	-- Включаем пиксельный рендеринг для всего UI
-	self.ScreenGui.ResampleMode = Enum.ResamplerMode.Default
+	-- self.ScreenGui.ResampleMode = Enum.ResamplerMode.Default
 	
 	print("PixelUI loaded successfully")
 	
