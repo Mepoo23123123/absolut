@@ -49,7 +49,9 @@ function PixelUI.new()
 	self.ScreenGui = Instance.new("ScreenGui")
 	self.ScreenGui.Name = "PixelUI"
 	self.ScreenGui.ResetOnSpawn = false
-	self.ScreenGui.Parent = PlayerGui
+	self.ScreenGui.Parent = Player:WaitForChild("PlayerGui")
+	
+	print("[DEBUG] ScreenGui created and parented to PlayerGui")
 	
 	-- Создаем главную рамку
 	self:CreateMainFrame()
