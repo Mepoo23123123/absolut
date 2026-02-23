@@ -19,7 +19,20 @@ PlayerDataEvent.OnServerEvent:Connect(function(player: Player, action: string, .
 	local dataManager = PlayerDataManager:GetPlayerData(player)
 	if not dataManager then
 		warn("No data manager found for player: " .. player.Name)
-		return
+		-- Создаем временную таблицу для игрока
+		dataManager = {
+			Data = {
+				Level = 1,
+				Experience = 0,
+				Coins = 0,
+				Inventory = {},
+				Stats = {
+					Health = 100,
+					Mana = 50,
+					Stamina = 100
+				}
+			}
+		}
 	end
 	
 	local args = {...}
@@ -65,6 +78,26 @@ PlayerDataEvent.OnServerEvent:Connect(function(player: Player, action: string, .
 		
 	else
 		warn("Unknown action: " .. action .. " from player: " .. player.Name)
+	end
+end)
+
+-- Создаем RemoteEvent для обновления инвентаря
+local UpdateInventoryEvent = Instance.new("RemoteEvent")
+UpdateInventoryEvent.Name = "UpdateInventory"
+UpdateInventoryEvent.Parent = ReplicatedStorage
+
+-- Обработка события PlayerAdded
+Players.PlayerAdded:Connect(function(player)
+	-- Небольшая задержка для загрузки клиента
+	task.wait(1)
+	
+	local dataManager = PlayerDataManager:GetPlayerData(player)
+	if dataManager then
+		-- Отправляем данные клиенту
+		UpdateInventoryEvent:FireClient(player, dataManager.Data.Inventory)
+	else
+		-- Отправляем пустой инвентарь
+		UpdateInventoryEvent:FireClient(player, {})
 	end
 end)
 

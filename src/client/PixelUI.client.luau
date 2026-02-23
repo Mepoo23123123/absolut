@@ -568,4 +568,21 @@ UserInputService.InputBegan:Connect(function(input, gameProcessed)
 	end
 end)
 
+-- Обработчик для обновления инвентаря
+local UpdateInventoryEvent = ReplicatedStorage:WaitForChild("UpdateInventory")
+UpdateInventoryEvent.OnClientEvent:Connect(function(playerItems)
+	local existingUI = PlayerGui:FindFirstChild("PixelUI")
+	if existingUI then
+		local pixelUI = existingUI:FindFirstChild("MainFrame")
+		if pixelUI then
+			-- Вызываем метод UpdateInventory у экземпляра PixelUI
+			-- Для этого нужно сохранить ссылку на экземпляр
+			-- Временное решение: пересоздаем UI с новыми данными
+			existingUI:Destroy()
+			local newPixelUI = PixelUI.new()
+			newPixelUI:UpdateInventory(playerItems)
+		end
+	end
+end)
+
 print("PixelUI loaded successfully")

@@ -4,10 +4,14 @@
     "$className": "DataModel",
 
     "ReplicatedStorage": {
+      "$className": "ReplicatedStorage",
       "Shared": {
         "$path": "src/shared"
       },
       "PlayerDataEvent": {
+        "$className": "RemoteEvent"
+      },
+      "UpdateInventory": {
         "$className": "RemoteEvent"
       }
     },
