@@ -1,0 +1,185 @@
+{
+  "name": "absolut",
+  "tree": {
+    "$className": "DataModel",
+
+    "ReplicatedStorage": {
+      "Shared": {
+        "$path": "src/shared"
+      }
+    },
+
+    "ServerScriptService": {
+      "Server": {
+        "$path": "src/server"
+      }
+    },
+
+    "StarterPlayer": {
+      "StarterPlayerScripts": {
+        "Client": {
+          "$path": "src/client"
+        }
+      },
+      "StarterGui": {
+        "Shop": {
+          "$className": "ScreenGui",
+          "Background": {
+            "$className": "Frame",
+            "CloseButton": {
+              "$className": "TextButton",
+              "UIAspectRatioConstraint": {
+                "$className": "UIAspectRatioConstraint"
+              },
+              "UICorner": {
+                "$className": "UICorner"
+              }
+            },
+            "Title": {
+              "$className": "TextLabel"
+            },
+            "MainContainer": {
+              "$className": "Frame",
+              "Buttons": {
+                "$className": "Frame",
+                "UIListLayout": {
+                  "$className": "UIListLayout"
+                },
+                "ItemsButton": {
+                  "$className": "TextButton",
+                  "UICorner": {
+                    "$className": "UICorner"
+                  }
+                },
+                "GamePassesButton": {
+                  "$className": "TextButton",
+                  "UICorner": {
+                    "$className": "UICorner"
+                  }
+                },
+                "RobuxButton": {
+                  "$className": "TextButton",
+                  "UICorner": {
+                    "$className": "UICorner"
+                  }
+                }
+              },
+              "Pages": {
+                "$className": "Frame",
+                "UIPageLayout": {
+                  "$className": "UIPageLayout"
+                },
+                "Items": {
+                  "$className": "Frame",
+                  "ItemsScroll": {
+                    "$className": "ScrollingFrame",
+                    "UIGridLayout": {
+                      "$className": "UIGridLayout"
+                    },
+                    "UICorner": {
+                      "$className": "UICorner"
+                    }
+                  }
+                },
+                "GamePasses": {
+                  "$className": "Frame",
+                  "ItemsScroll": {
+                    "$className": "ScrollingFrame",
+                    "UIGridLayout": {
+                      "$className": "UIGridLayout"
+                    },
+                    "UICorner": {
+                      "$className": "UICorner"
+                    }
+                  }
+                },
+                "Robux": {
+                  "$className": "Frame",
+                  "ItemsScroll": {
+                    "$className": "ScrollingFrame",
+                    "UIGridLayout": {
+                      "$className": "UIGridLayout"
+                    },
+                    "UICorner": {
+                      "$className": "UICorner"
+                    }
+                  }
+                }
+              },
+              "Info": {
+                "$className": "Frame",
+                "UIListLayout": {
+                  "$className": "UIListLayout"
+                },
+                "InfoTitle": {
+                  "$className": "TextLabel"
+                },
+                "ItemName": {
+                  "$className": "TextLabel"
+                },
+                "ItemDescription": {
+                  "$className": "TextLabel"
+                },
+                "ItemPrice": {
+                  "$className": "TextLabel"
+                },
+                "BuyButton": {
+                  "$className": "TextButton",
+                  "UICorner": {
+                    "$className": "UICorner"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "Workspace": {
+      "$properties": {
+        "FilteringEnabled": true
+      },
+      "Baseplate": {
+        "$className": "Part",
+        "$properties": {
+          "Anchored": true,
+          "Color": [
+            0.38823,
+            0.37254,
+            0.38823
+          ],
+          "Locked": true,
+          "Position": [
+            0,
+            -10,
+            0
+          ],
+          "Size": [
+            512,
+            20,
+            512
+          ]
+        }
+      }
+    },
+    "Lighting": {
+      "$properties": {
+        "Ambient": [
+          0,
+          0,
+          0
+        ],
+        "Brightness": 2,
+        "GlobalShadows": true,
+        "Outlines": false,
+        "Technology": "Voxel"
+      }
+    },
+    "SoundService": {
+      "$properties": {
+        "RespectFilteringEnabled": true
+      }
+    }
+  }
+}
