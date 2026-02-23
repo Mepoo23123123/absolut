@@ -9,12 +9,6 @@
       },
       "PlayerDataEvent": {
         "$className": "RemoteEvent"
-      },
-      "DailyRewardsEvent": {
-        "$className": "RemoteEvent"
-      },
-      "QuestEvent": {
-        "$className": "RemoteEvent"
       }
     },
 

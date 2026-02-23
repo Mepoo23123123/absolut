@@ -1,11 +1,11 @@
 --!strict
 
 -- PlayerDataManager.luau
--- Система загрузки и управления данными игрока
+-- Система управления данными игрока
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
-local ServerScriptService = game:GetService("ServerScriptService")
+local DataStoreService = game:GetService("DataStoreService")
 
 -- Модуль для хранения данных игрока
 local PlayerData = {}
@@ -30,7 +30,7 @@ function PlayerData.new(player: Player)
 	
 	self.Player = player
 	self.UserId = player.UserId
-	self.DataStore = game:GetService("DataStoreService"):GetDataStore("PlayerData")
+	self.DataStore = DataStoreService:GetDataStore("PlayerData")
 	self.Data = table.clone(DEFAULT_DATA)
 	
 	return self
@@ -152,12 +152,6 @@ function PlayerDataManager:OnPlayerAdded(player: Player)
 	local data = PlayerData.new(player)
 	data:Load()
 	self.PlayersData[player] = data
-	
-	-- Отправка данных клиенту
-	local RemoteEvent = ReplicatedStorage:FindFirstChild("PlayerDataEvent")
-	if RemoteEvent then
-		RemoteEvent:FireClient(player, data.Data)
-	end
 end
 
 function PlayerDataManager:OnPlayerRemoving(player: Player)
