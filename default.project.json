@@ -9,6 +9,9 @@
       },
       "PlayerDataEvent": {
         "$className": "RemoteEvent"
+      },
+      "DailyRewardsEvent": {
+        "$className": "RemoteEvent"
       }
     },
 
