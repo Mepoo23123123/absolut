@@ -377,7 +377,7 @@ end
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
 	if gameProcessed then return end
 	
-	if input.KeyCode == Enum.KeyCode.Tab then
+	if input.KeyCode == Enum.KeyCode.F then
 		local pixelUI = PixelUI.new()
 	end
 end)
