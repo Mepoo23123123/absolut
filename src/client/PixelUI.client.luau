@@ -247,8 +247,9 @@ function PixelUI:CreateToolbar()
 		slot.BorderSizePixel = 0
 		slot.Text = ""
 		
-		-- Обводка слота
+		-- Обводка слота (серая)
 		local slotStroke = Instance.new("UIStroke")
+		slotStroke.Name = "SlotStroke"
 		slotStroke.Color = UI_CONFIG.Colors.SlotBorder
 		slotStroke.Thickness = 2
 		slotStroke.Transparency = 0.3
@@ -277,6 +278,16 @@ function PixelUI:CreateToolbar()
 		keyLabel.BackgroundTransparency = 1
 		keyLabel.Parent = slot
 		
+		-- Иконка предмета
+		local itemIcon = Instance.new("ImageLabel")
+		itemIcon.Name = "ItemIcon"
+		itemIcon.Size = UDim2.new(0.8, 0, 0.8, 0)
+		itemIcon.Position = UDim2.new(0.1, 0, 0.1, 0)
+		itemIcon.BackgroundTransparency = 1
+		itemIcon.ImageTransparency = 1
+		itemIcon.ScaleType = Enum.ScaleType.Fit
+		itemIcon.Parent = slot
+		
 		-- Эффект наведения
 		slot.MouseEnter:Connect(function()
 			TweenService:Create(slot, TweenInfo.new(0.2), { BackgroundTransparency = 0.1 }):Play()
@@ -286,10 +297,170 @@ function PixelUI:CreateToolbar()
 			TweenService:Create(slot, TweenInfo.new(0.2), { BackgroundTransparency = UI_CONFIG.Transparency.Slot }):Play()
 		end)
 		
+		-- Обработка клика по слоту
+		slot.MouseButton1Click:Connect(function()
+			self:HandleSlotClick(slot, itemIcon)
+		end)
+		
 		slot.Parent = toolbar
 	end
 	
 	toolbar.Parent = self.MainFrame
+end
+
+-- Обработка клика по слоту
+function PixelUI:HandleSlotClick(slot, itemIcon)
+	-- Снимаем выделение со всех слотов
+	self:ClearAllSelections()
+	
+	-- Выделяем текущий слот белой обводкой
+	local slotStroke = slot:FindFirstChild("SlotStroke")
+	if slotStroke then
+		TweenService:Create(slotStroke, TweenInfo.new(0.2), { 
+			Color = Color3.fromRGB(255, 255, 255),
+			Transparency = 0.1
+		}):Play()
+	end
+	
+	-- Показываем название предмета
+	if itemIcon and itemIcon.ImageTransparency < 1 then
+		self:ShowItemName(itemIcon)
+	end
+end
+
+-- Снимаем выделение со всех слотов
+function PixelUI:ClearAllSelections()
+	local toolbar = self.MainFrame:FindFirstChild("Toolbar")
+	if toolbar then
+		for _, child in pairs(toolbar:GetChildren()) do
+			if child:IsA("TextButton") and child.Name:match("Slot_") then
+				local slotStroke = child:FindFirstChild("SlotStroke")
+				if slotStroke then
+					TweenService:Create(slotStroke, TweenInfo.new(0.2), { 
+						Color = UI_CONFIG.Colors.SlotBorder,
+						Transparency = 0.3
+					}):Play()
+				end
+			end
+		end
+	end
+end
+
+-- Показываем название предмета над персонажем
+function PixelUI:ShowItemName(itemIcon)
+	-- Удаляем предыдущее название, если есть
+	if self.currentNameLabel then
+		self.currentNameLabel:Destroy()
+		self.currentNameLabel = nil
+	end
+	
+	-- Создаем новое название
+	local nameLabel = Instance.new("TextLabel")
+	nameLabel.Name = "ItemNameLabel"
+	nameLabel.Text = "Sword" -- Временное название, можно сделать динамическим
+	nameLabel.Font = Enum.Font.Code
+	nameLabel.TextSize = 24
+	nameLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+	nameLabel.TextTransparency = 0.2
+	nameLabel.BackgroundTransparency = 1
+	nameLabel.Size = UDim2.new(0, 200, 0, 40)
+	nameLabel.Position = UDim2.new(0.5, -100, 0.3, -20)
+	nameLabel.AnchorPoint = Vector2.new(0.5, 0.5)
+	nameLabel.Parent = self.ScreenGui
+	
+	-- Добавляем обводку к названию
+	local nameStroke = Instance.new("UIStroke")
+	nameStroke.Color = Color3.fromRGB(0, 0, 0)
+	nameStroke.Thickness = 2
+	nameStroke.Transparency = 0.5
+	nameStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+	nameStroke.Parent = nameLabel
+	
+	self.currentNameLabel = nameLabel
+	
+	-- Удаляем название через 2 секунды
+	task.delay(2, function()
+		if nameLabel and nameLabel.Parent then
+			TweenService:Create(nameLabel, TweenInfo.new(0.5), { TextTransparency = 1 }):Play()
+			task.delay(0.5, function()
+				if nameLabel and nameLabel.Parent then
+					nameLabel:Destroy()
+				end
+				self.currentNameLabel = nil
+			end)
+		end
+	end)
+end
+
+-- Заполняем слоты предметами из PlayerItems
+function PixelUI:UpdateInventory(playerItems)
+	local toolbar = self.MainFrame:FindFirstChild("Toolbar")
+	if not toolbar then return end
+	
+	local slotIndex = 1
+	for itemName, itemData in pairs(playerItems) do
+		if slotIndex <= 9 then
+			local slot = toolbar:FindFirstChild("Slot_" .. slotIndex)
+			if slot then
+				local itemIcon = slot:FindFirstChild("ItemIcon")
+				if itemIcon then
+					-- Устанавливаем иконку предмета
+					itemIcon.Image = itemData.Icon or ""
+					itemIcon.ImageTransparency = 0
+					
+					-- Добавляем подсказку с названием
+					itemIcon.MouseEnter:Connect(function()
+						self:ShowItemTooltip(slot, itemName)
+					end)
+					
+					itemIcon.MouseLeave:Connect(function()
+						self:HideItemTooltip()
+					end)
+				end
+			end
+			slotIndex = slotIndex + 1
+		end
+	end
+end
+
+-- Показываем подсказку с названием предмета
+function PixelUI:ShowItemTooltip(slot, itemName)
+	if self.tooltipLabel then
+		self:HideItemTooltip()
+	end
+	
+	local tooltip = Instance.new("TextLabel")
+	tooltip.Name = "Tooltip"
+	tooltip.Text = itemName
+	tooltip.Font = Enum.Font.Code
+	tooltip.TextSize = 14
+	tooltip.TextColor3 = Color3.fromRGB(255, 255, 255)
+	tooltip.TextTransparency = 0.2
+	tooltip.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	tooltip.BackgroundTransparency = 0.6
+	tooltip.BorderSizePixel = 0
+	tooltip.Size = UDim2.new(0, 120, 0, 20)
+	tooltip.Position = UDim2.new(1, 10, 0.5, -10)
+	tooltip.AnchorPoint = Vector2.new(0, 0.5)
+	tooltip.Parent = slot
+	
+	-- Обводка для подсказки
+	local tooltipStroke = Instance.new("UIStroke")
+	tooltipStroke.Color = Color3.fromRGB(255, 255, 255)
+	tooltipStroke.Thickness = 1
+	tooltipStroke.Transparency = 0.5
+	tooltipStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+	tooltipStroke.Parent = tooltip
+	
+	self.tooltipLabel = tooltip
+end
+
+-- Скрываем подсказку
+function PixelUI:HideItemTooltip()
+	if self.tooltipLabel then
+		self.tooltipLabel:Destroy()
+		self.tooltipLabel = nil
+	end
 end
 
 -- Создание меню группы
