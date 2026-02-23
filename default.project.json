@@ -25,6 +25,7 @@
         }
       },
       "StarterGui": {
+        "$className": "StarterGui",
         "Shop": {
           "$className": "ScreenGui",
           "Background": {
