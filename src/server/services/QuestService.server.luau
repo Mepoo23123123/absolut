@@ -8,7 +8,7 @@ local Players = game:GetService("Players")
 local Workspace = game:GetService("Workspace")
 
 -- Загружаем PlayerDataManager для интеграции
-local PlayerDataManager = require(script.Parent.Parent.Parent.Shared.PlayerDataManager)
+local PlayerDataManager = require(ReplicatedStorage.Shared.PlayerDataManager)
 
 -- Конфигурация квестов
 local QUESTS_CONFIG = {
