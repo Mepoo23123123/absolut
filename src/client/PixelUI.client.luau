@@ -593,3 +593,5 @@ UpdateInventoryEvent.OnClientEvent:Connect(function(playerItems)
 end)
 
 print("PixelUI loaded successfully")
+
+return PixelUI
