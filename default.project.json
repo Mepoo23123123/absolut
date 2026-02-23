@@ -12,6 +12,9 @@
       },
       "DailyRewardsEvent": {
         "$className": "RemoteEvent"
+      },
+      "QuestEvent": {
+        "$className": "RemoteEvent"
       }
     },
 
