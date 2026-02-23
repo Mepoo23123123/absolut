@@ -73,4 +73,8 @@ end)
 -- Инициализация: запрос данных с сервера
 SendRequest("GetAllData")
 
+-- Создаем UI
+local PixelUI = require(script.Parent:WaitForChild("PixelUI"))
+local pixelUI = PixelUI.new()
+
 print("Client loaded successfully")

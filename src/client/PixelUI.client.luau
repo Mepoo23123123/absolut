@@ -45,6 +45,13 @@ PixelUI.__index = PixelUI
 function PixelUI.new()
 	local self = setmetatable({}, PixelUI)
 	
+	-- Проверяем, не существует ли уже ScreenGui с таким именем
+	local existingUI = PlayerGui:FindFirstChild("PixelUI")
+	if existingUI then
+		existingUI:Destroy()
+		print("Removed existing PixelUI for hot reload")
+	end
+	
 	-- Создаем основной ScreenGui
 	self.ScreenGui = Instance.new("ScreenGui")
 	self.ScreenGui.Name = "PixelUI"
