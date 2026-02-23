@@ -375,19 +375,34 @@ end
 
 -- Привязка к клавише для открытия/закрытия UI
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
-	if gameProcessed then return end
+	print("[DEBUG] InputBegan triggered")
+	print("[DEBUG] KeyCode:", input.KeyCode)
+	print("[DEBUG] GameProcessed:", gameProcessed)
+	
+	if gameProcessed then 
+		print("[DEBUG] Game processed, returning")
+		return 
+	end
 	
 	if input.KeyCode == Enum.KeyCode.F then
+		print("[DEBUG] F key pressed")
+		
 		-- Проверяем, не существует ли уже UI
-		if not PlayerGui:FindFirstChild("PixelUI") then
+		local existingUI = PlayerGui:FindFirstChild("PixelUI")
+		print("[DEBUG] Existing UI found:", existingUI ~= nil)
+		
+		if not existingUI then
+			print("[DEBUG] Creating new PixelUI")
 			local pixelUI = PixelUI.new()
+			print("[DEBUG] PixelUI created successfully")
 		else
 			-- Если UI существует, удаляем его
-			local existingUI = PlayerGui:FindFirstChild("PixelUI")
-			if existingUI then
-				existingUI:Destroy()
-			end
+			print("[DEBUG] Destroying existing PixelUI")
+			existingUI:Destroy()
+			print("[DEBUG] PixelUI destroyed successfully")
 		end
+	else
+		print("[DEBUG] Key pressed:", input.KeyCode.Name, "not F")
 	end
 end)
 
