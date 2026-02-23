@@ -378,7 +378,16 @@ UserInputService.InputBegan:Connect(function(input, gameProcessed)
 	if gameProcessed then return end
 	
 	if input.KeyCode == Enum.KeyCode.F then
-		local pixelUI = PixelUI.new()
+		-- Проверяем, не существует ли уже UI
+		if not PlayerGui:FindFirstChild("PixelUI") then
+			local pixelUI = PixelUI.new()
+		else
+			-- Если UI существует, удаляем его
+			local existingUI = PlayerGui:FindFirstChild("PixelUI")
+			if existingUI then
+				existingUI:Destroy()
+			end
+		end
 	end
 end)
 
