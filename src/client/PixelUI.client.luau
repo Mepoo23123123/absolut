@@ -51,7 +51,10 @@ function PixelUI.new()
 	self.ScreenGui.ResetOnSpawn = false
 	self.ScreenGui.Parent = Player:WaitForChild("PlayerGui")
 	
-	print("[DEBUG] ScreenGui created and parented to PlayerGui")
+	-- Включаем пиксельный рендеринг для всего UI
+	self.ScreenGui.ResampleMode = Enum.ResampleMode.Pixelated
+	
+	print("PixelUI loaded successfully")
 	
 	-- Создаем главную рамку
 	self:CreateMainFrame()
