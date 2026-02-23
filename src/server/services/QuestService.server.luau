@@ -337,17 +337,19 @@ QuestEvent.OnServerEvent:Connect(function(player: Player, action: string, ...)
 		local dataManager = self.PlayersData[player]
 		local availableQuests = {}
 		
-		for questId, quest in pairs(QUESTS_CONFIG) do
-			-- Проверка, не выполнен ли квест
-			if not dataManager.Data.Quests.CompletedQuests[questId] then
-				-- Проверка, не выполняется ли уже квест
-				if not dataManager.Data.Quests.ActiveQuests[questId] then
-					table.insert(availableQuests, {
-						Id = questId,
-						Name = quest.Name,
-						Description = quest.Description,
-						AutoAccept = quest.AutoAccept
-					})
+		if dataManager then
+			for questId, quest in pairs(QUESTS_CONFIG) do
+				-- Проверка, не выполнен ли квест
+				if not dataManager.Data.Quests.CompletedQuests[questId] then
+					-- Проверка, не выполняется ли уже квест
+					if not dataManager.Data.Quests.ActiveQuests[questId] then
+						table.insert(availableQuests, {
+							Id = questId,
+							Name = quest.Name,
+							Description = quest.Description,
+							AutoAccept = quest.AutoAccept
+						})
+					end
 				end
 			end
 		end
