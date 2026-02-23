@@ -8,7 +8,7 @@ local Players = game:GetService("Players")
 local HttpService = game:GetService("HttpService")
 
 -- Загружаем PlayerDataManager для интеграции
-local PlayerDataManager = require(script.Parent.Shared.PlayerDataManager)
+local PlayerDataManager = require(script.Parent.Parent.Shared.PlayerDataManager)
 
 -- Конфигурация наград
 local DAILY_REWARDS_CONFIG = {

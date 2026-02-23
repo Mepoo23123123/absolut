@@ -12,7 +12,7 @@ PlayerDataEvent.Name = "PlayerDataEvent"
 PlayerDataEvent.Parent = ReplicatedStorage
 
 -- Загружаем менеджер данных
-local PlayerDataManager = require(script.Parent.Shared.PlayerDataManager)
+local PlayerDataManager = require(script.Parent.Parent.Shared.PlayerDataManager)
 
 -- Обработчик запросов от клиента
 PlayerDataEvent.OnServerEvent:Connect(function(player: Player, action: string, ...)
